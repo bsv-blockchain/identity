@@ -1,0 +1,27 @@
+<svg viewBox="0 0 760 424" width="760" height="424" style="max-width:100%;height:auto" xmlns="http://www.w3.org/2000/svg" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs><marker id="f1arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker></defs>
+  <rect x="0" y="0" width="760" height="424" rx="10" fill="#ffffff"/>
+  <text x="24" y="26" font-size="15" font-weight="700" fill="#0f172a">Figure 1 · Layered architecture</text>
+  <rect x="24" y="42" width="712" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="380" y="69" text-anchor="middle" font-size="13" fill="#4c1d95">eIDAS / EUDI interoperability profile (Part IV) · PID · QEAA · Trusted Lists</text>
+  <line x1="380" y1="88" x2="380" y2="104" stroke="#64748b" stroke-width="1.5" marker-end="url(#f1arr)"/>
+  <rect x="24" y="106" width="712" height="44" rx="8" fill="#fef3c7" stroke="#d97706"/>
+  <text x="380" y="133" text-anchor="middle" font-size="13" fill="#92400e">Presentation edge · BRC-103 · OpenID4VP / SIOP</text>
+  <line x1="380" y1="152" x2="380" y2="168" stroke="#64748b" stroke-width="1.5" marker-end="url(#f1arr)"/>
+  <rect x="24" y="170" width="712" height="56" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="380" y="194" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">Unified binding layer — the new BRC</text>
+  <text x="380" y="213" text-anchor="middle" font-size="12" fill="#1e40af">personhood commitment (s, n) · scoped pseudonyms · KYC tiers · ZK toolbox</text>
+  <line x1="200" y1="226" x2="200" y2="250" stroke="#64748b" stroke-width="1.5" marker-end="url(#f1arr)"/>
+  <line x1="560" y1="226" x2="560" y2="250" stroke="#64748b" stroke-width="1.5" marker-end="url(#f1arr)"/>
+  <rect x="24" y="252" width="346" height="62" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+  <text x="197" y="278" text-anchor="middle" font-size="13" font-weight="700" fill="#075985">Wallet / attestation stack</text>
+  <text x="197" y="297" text-anchor="middle" font-size="11.5" fill="#0c4a6e">BRC-42/43 · BRC-100 · BRC-103 · BRC-52/53</text>
+  <rect x="390" y="252" width="346" height="62" rx="8" fill="#ccfbf1" stroke="#0d9488"/>
+  <text x="563" y="278" text-anchor="middle" font-size="13" font-weight="700" fill="#115e59">VC / DID stack</text>
+  <text x="563" y="297" text-anchor="middle" font-size="11.5" fill="#134e4a">did:bsv · W3C VC/VP · OpenID4VCI/VP · SIOP</text>
+  <line x1="200" y1="314" x2="200" y2="336" stroke="#64748b" stroke-width="1.5" marker-end="url(#f1arr)"/>
+  <line x1="560" y1="314" x2="560" y2="336" stroke="#64748b" stroke-width="1.5" marker-end="url(#f1arr)"/>
+  <rect x="24" y="338" width="712" height="62" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="380" y="364" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">BSV ledger · UTXO · SPV · overlay / Teranode</text>
+  <text x="380" y="383" text-anchor="middle" font-size="11.5" fill="#475569">type-42 key derivation (BRC-42/43) — cryptographic substrate</text>
+</svg>
