@@ -10,9 +10,13 @@ level — *without revealing who they are*, and presents a **different identifie
 every service** so their activity cannot be correlated across services.
 
 > **Status:** v0.2 — draft for discussion. Not yet a ratified BRC or eIDAS profile.
-> v0.2 responds to external review: uniqueness moved from presentation-time nullifiers to an
-> anchored enrolment registry, the biometric input dropped from the uniqueness anchor, Tier-1
-> enrolment specified normatively, and the AML scope carve-out added.
+> v0.2 responds to two external review rounds: uniqueness moved from presentation-time
+> nullifiers to an enrolment registry (tags off-chain per the EDPB blockchain guidelines,
+> full state machine in Appendix F), the biometric input dropped from the uniqueness anchor,
+> Tier-1 enrolment specified normatively, wallet-side scope derivation, a root-secret
+> compromise path (s-migration), the corrected EUDI format baseline (ISO 18013-5 + W3C
+> VCDM 1.1 in the binding acts), the AML scope carve-out, and the delegated-CDD-custody
+> profile. Uniqueness claims are stated per-document, which is what the cryptography proves.
 
 ## Documents
 
@@ -59,8 +63,9 @@ The proposal states its limits plainly, and so does this README:
   provable one-human-one-account.
 - **Unlinkability is cryptographic and conditional.** It holds on the non-custodial,
   zero-knowledge presentation path. It does **not** extend to a custodial wallet or the
-  network layer (IP/timing/device); and anyone who has read a passport's chip can test
-  whether that document has *enrolled* — the bounded cost of the public uniqueness registry.
+  network layer (IP/timing/device); and a party with both a passport's chip data and query
+  access to the (off-chain, rate-limited) uniqueness registry can test whether that document
+  has *enrolled* — the bounded cost of attester-free uniqueness.
 - **Unlinkable KYC is not AML KYC.** Where customer-due-diligence law applies, the business
   must identify the customer and retain the record; this system then offers verified,
   minimized disclosure, not anonymity — or, under the optional delegated-custody profile
