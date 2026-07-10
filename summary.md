@@ -1,7 +1,7 @@
 # BSV Unified Identity — Executive Summary
 ### Private, Verifiable, Unlinkable KYC, from a free passport scan to eIDAS
 
-**Status:** v0.1 (companion to the full standards proposal and technical white paper)
+**Status:** v0.2 (companion to the full standards proposal and technical white paper)
 **Editors:** Siggi (BSV Association); additional editors TBD
 
 ---
@@ -26,7 +26,7 @@ The gap none of the mainstream options closes is **unlinkability**. The EU's own
 
 The design **reuses existing standards rather than inventing a new stack** — a registered, blockchain-native decentralized identifier (`did:bsv`), W3C Verifiable Credentials, the OpenID and ISO credential protocols the EU mandates, and BSV's established key and certificate primitives — and binds them with a thin new layer plus zero-knowledge proofs.
 
-Three values do the work. A **secret** held only in the user's wallet generates a *different* pseudonym for every service. A separate, **passport-derived uniqueness anchor** lets the system enforce one-person-one-account without that anchor ever being a secret. A **zero-knowledge proof** ties a presentation to a valid credential and proves the requested facts — without disclosing the underlying identity, the credential, or any extra attribute.
+Three values do the work. A **secret** held only in the user's wallet generates a *different* pseudonym for every service. A separate, **passport-derived uniqueness anchor** enforces one-person-one-account once, at sign-up, in a public registry — and is never shown to any service afterwards, because anyone who has ever read the passport chip could recompute it. A **zero-knowledge proof** ties a presentation to a valid credential and proves the requested facts — without disclosing the underlying identity, the credential, or any extra attribute.
 
 Onboarding is **tiered and starts free**: a person scans their own passport's chip with a phone, the wallet verifies it against the issuing country's cryptography, and that becomes a usable, privacy-preserving identity with no third party involved. Higher tiers add an accountable verifier and, ultimately, government-grade assurance.
 
@@ -45,7 +45,7 @@ Onboarding is **tiered and starts free**: a person scans their own passport's ch
 
 Read honestly: **World ID** proves you are a unique human but learns nothing about who you are — it cannot do attribute KYC (name, age, residency), and it depends on dedicated iris-scanning hardware. The **EU wallet** has unmatched regulatory force but ships linkable baseline formats. The closest peer is **Privado ID / Billions** (the former Polygon ID team), which also does passport-based zero-knowledge identity — but on an Ethereum-style ecosystem rather than a high-throughput public UTXO ledger, and without a defined path into eIDAS notification.
 
-This proposal's distinctive combination is all four at once: **verifiable government-attribute KYC, proof-of-unique-personhood, unlinkability, and a concrete eIDAS path** — anchored on a low-fee, high-throughput public ledger, entered through a **free** self-serve passport scan. (The unlinkability advantage is realized on the zero-knowledge path and holds from day one; the EU has written zero-knowledge requirements into its framework but defers them to after the December 2026 launch, so its baseline-format presentations stay linkable in the meantime — and those same EU requirements make this design a natural conformant zero-knowledge layer for EU-issued credentials, not just a competitor.)
+This proposal's distinctive combination is all four at once: **verifiable government-attribute KYC, proof-of-unique-personhood, unlinkability, and a concrete eIDAS path** — anchored on a low-fee, high-throughput public ledger, entered through a **free** self-serve passport scan. (The unlinkability advantage is realized on the zero-knowledge path and holds from day one; the EU has written zero-knowledge requirements into its framework but defers them to after the December 2026 launch, so its baseline-format presentations stay linkable in the meantime — and those same EU requirements make this design a natural conformant zero-knowledge layer for EU-issued credentials, not just a competitor — on the cryptographic track the EU itself names, with direct proving over the EU's own credential formats a stated work item.)
 
 ## The regulatory opportunity
 
@@ -60,6 +60,7 @@ Stage 1 delivers value immediately and depends on no one's permission. Stage 2 b
 This document does not trade in blockchain magic.
 
 - **The free tier is bootstrap-grade, not government KYC.** A self-read passport proves the *document* is genuine; it does not prove the person holding the phone is its rightful owner. It resists casual fraud and bot armies, not a determined impostor with a borrowed or stolen passport. Accountable verification is exactly what the higher tiers add.
+- **Unlinkable KYC is not AML KYC.** Where anti-money-laundering law applies, a regulated business must identify its customer and keep the record — no anonymous proof substitutes for that. There, this system's offer is verified, minimized, consented disclosure; the unlinkable mode serves age checks, one-account-per-person, and access gating.
 - **Cryptography is not network anonymity.** Unlinkable credentials do not hide your IP address or device. Real privacy requires network-level measures too, and the design says so.
 - **The heaviest privacy proofs are real engineering.** Proving a passport's authenticity in zero knowledge is feasible on phones today (several production systems do it) but is computationally heavy; the design amortizes it into a one-time enrolment so everyday use stays fast.
 - **Stage 3 carries a strategic, not just technical, risk:** whether EU regulators will anchor a notified scheme on a public, permissionless ledger at all. This is now evidenced, not hypothetical — at least one early national wallet pilot was dropped partly because a blockchain-and-zero-knowledge stack did not meet secure-hardware requirements, and the EU is expected to admit such cryptography only cautiously and late. The answer here is on-device proving, secure-element keys, and only blinded data on-chain; but Stages 1–2 are deliberately built to deliver value without depending on that answer.
