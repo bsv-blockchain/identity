@@ -63,7 +63,9 @@ The proposal states its limits plainly, and so does this README:
   whether that document has *enrolled* — the bounded cost of the public uniqueness registry.
 - **Unlinkable KYC is not AML KYC.** Where customer-due-diligence law applies, the business
   must identify the customer and retain the record; this system then offers verified,
-  minimized disclosure, not anonymity.
+  minimized disclosure, not anonymity — or, under the optional delegated-custody profile
+  (spec §10.10), a regulated custodian holds the record and the business holds only a proof
+  of diligence plus a lawful retrieval right, so it stores no plaintext PII at all.
 - **The free tier is bootstrap-grade.** A self-read passport proves the document is genuine,
   not that the person holding the phone is its rightful owner.
 - **The heaviest zero-knowledge proofs are real engineering**, and the strongest privacy
