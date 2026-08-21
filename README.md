@@ -98,9 +98,20 @@ tools/build-docs.sh --check         # exit 1 if anything is stale (CI)
 tools/build-docs.sh --install-hook  # rebuild and stage on every commit
 ```
 
-Requires `pandoc` and `typst` (`brew install pandoc typst`). The PDF path runs
-markdown through pandoc to typst and compiles with `tools/template.typ`; the
-EPUB path is pandoc's epub3 writer with `tools/epub.css`. The title, the
+Requires `pandoc` and `typst` (`brew install pandoc typst`), plus `mmdc`
+(`npm i -g @mermaid-js/mermaid-cli`) for the documents carrying a ` ```mermaid `
+block — currently only `zk-proofs-and-poc.md`; the others build without it. The
+PDF path runs markdown through pandoc to typst and compiles with
+`tools/template.typ`; the EPUB path is pandoc's epub3 writer with
+`tools/epub.css`.
+
+Mermaid blocks are rendered to SVG by `tools/mermaid.lua` and substituted for
+the source, so a diagram GitHub renders natively is a diagram in both editions.
+Renders are content-addressed by the SHA-1 of the block and cached under
+`tools/.build-cache/mermaid/`, so an unchanged diagram never pays for another
+headless Chromium launch. `tools/mermaid.json` disables mermaid's HTML labels:
+mermaid 11 puts node text in `<foreignObject>`, which typst renders as blank
+boxes. The title, the
 optional subtitle beneath it, and the `**Status:**` / `**Editors:**` block are
 lifted out of each document's front matter into the title block and the EPUB
 metadata; the title block shows only the version, the part of the status line

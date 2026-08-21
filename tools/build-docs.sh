@@ -26,6 +26,10 @@ CACHE=$TOOLS/.build-cache
 PDF_DIR=$ROOT/pdf
 EPUB_DIR=$ROOT/epub
 
+# Rendered mermaid diagrams, content-addressed by tools/mermaid.lua.
+export MERMAID_CACHE=$CACHE/mermaid
+export MERMAID_CONFIG=$TOOLS/mermaid.json
+
 # README.md is repo furniture, not a paper.
 DOCS=(whitepaper.md technical-whitepaper.md summary.md zk-proofs-and-poc.md)
 
@@ -36,10 +40,16 @@ FORMATS=(pdf epub)
 
 require() {
   command -v pandoc >/dev/null || die "pandoc not found (brew install pandoc)"
+  # mmdc is only needed by documents that actually carry a mermaid block.
+  # (targets is empty on the --install-hook path, which needs no renderer.)
+  if (( ${#targets[@]} )) && grep -q '^```mermaid' "${targets[@]}"; then
+    command -v mmdc >/dev/null || die "mmdc not found (npm i -g @mermaid-js/mermaid-cli)"
+  fi
   for f in pdf; do
     [[ " ${FORMATS[*]} " == *" $f "* ]] && { command -v typst >/dev/null || die "typst not found (brew install typst)"; }
   done
-  for f in "$TOOLS/template.typ" "$TOOLS/frontmatter.lua" "$TOOLS/figures.lua" "$TOOLS/epub.css"; do
+  for f in "$TOOLS/template.typ" "$TOOLS/frontmatter.lua" "$TOOLS/figures.lua" \
+           "$TOOLS/mermaid.lua" "$TOOLS/mermaid.json" "$TOOLS/epub.css"; do
     [[ -f $f ]] || die "missing build input: ${f#"$ROOT"/}"
   done
 }
@@ -47,7 +57,8 @@ require() {
 # Every input that can change an output participates in the fingerprint. The
 # figures are shared by several papers, so any diagram edit restages them all.
 fingerprint() {
-  cat "$1" "$TOOLS/template.typ" "$TOOLS/frontmatter.lua" "$TOOLS/figures.lua" "$TOOLS/epub.css" \
+  cat "$1" "$TOOLS/template.typ" "$TOOLS/frontmatter.lua" "$TOOLS/figures.lua" \
+      "$TOOLS/mermaid.lua" "$TOOLS/mermaid.json" "$TOOLS/epub.css" \
       "${BASH_SOURCE[0]}" "$ROOT"/diagrams/*.svg | shasum -a 256 | cut -d' ' -f1
 }
 
@@ -102,6 +113,7 @@ build_pdf() {
   local md=$1 tmp=$2 out; out=$(outfile pdf "$1")
   pandoc "$md" "${pandoc_common[@]}" --to=typst \
     --lua-filter="$TOOLS/frontmatter.lua" --lua-filter="$TOOLS/figures.lua" \
+    --lua-filter="$TOOLS/mermaid.lua" \
     --output="$tmp/body.typ" 2>"$tmp/err"
 
   # typst resolves image paths against the file being compiled, and that file
@@ -136,6 +148,7 @@ build_epub() {
   mkdir -p "$EPUB_DIR"
   pandoc "$md" "${pandoc_common[@]}" --to=epub3 \
     --lua-filter="$TOOLS/frontmatter.lua" --lua-filter="$TOOLS/figures.lua" \
+    --lua-filter="$TOOLS/mermaid.lua" \
     --css="$TOOLS/epub.css" \
     --toc --toc-depth=3 \
     --split-level=2 \
@@ -215,6 +228,7 @@ main() {
 
   require
   for md in "${targets[@]}"; do [[ -f $md ]] || die "$md not found"; done
+  mkdir -p "$MERMAID_CACHE"
 
   case $mode in
     check)
