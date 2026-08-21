@@ -32,6 +32,15 @@ local function render(src, svg)
   end
 end
 
+-- mmdc writes the rendered size onto the root element (useMaxWidth is off).
+local function intrinsic(svg)
+  local f = assert(io.open(svg, "r"))
+  local head = f:read(2048) or ""
+  f:close()
+  return tonumber(head:match('<svg[^>]-width="([%d.]+)"')),
+         tonumber(head:match('<svg[^>]-height="([%d.]+)"'))
+end
+
 function CodeBlock(el)
   if not el.classes:includes("mermaid") then return nil end
 
@@ -39,10 +48,15 @@ function CodeBlock(el)
   local hit = io.open(svg, "r")
   if hit then hit:close() else render(el.text, svg) end
 
-  -- The diagrams run to the measure; 100% keeps a wide one inside it. The alt
-  -- text names the shape, which is all the source gives us.
+  -- Sizing follows the diagram's own shape. A wide one is capped at the
+  -- measure; a tall one capped that way would fill the page on its own and
+  -- typeset its labels larger than the body text, so it is capped by height.
+  local w, h = intrinsic(svg)
+  local size = (h and w and h > w) and { height = "15cm" } or { width = "100%" }
+
+  -- The alt text names the shape, which is all the source gives us.
   local kind = el.text:match("^%s*([%a]+)") or "mermaid"
   return pandoc.Para{
-    pandoc.Image({ pandoc.Str(kind .. " diagram") }, svg, "", { width = "100%" })
+    pandoc.Image({ pandoc.Str(kind .. " diagram") }, svg, "", size)
   }
 end

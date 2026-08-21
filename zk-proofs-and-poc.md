@@ -43,7 +43,7 @@ The circuit enforces:
 Why the `s` / `n` split still matters (Spec §8.4): `pid` is keyed only by `s`, so someone who has read the passport (and can recompute `n`) cannot compute anyone's pseudonyms; `n` anchors one-registration-per-person at enrolment, so uniqueness survives across wallets and re-installs. The v0.3 rule that completes the design: **`n`-derived values never leave enrolment.** Anything derived from `n` that is revealed at presentation time — however it is scoped or hashed — is recomputable by whoever has handled the passport, and becomes a join key against every store it lands in.
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph Wallet["TypeScript prover (on device)"]
     W["private: s, dob, n, salt,<br/>C, Merkle path"] --> P["Groth16 prove<br/>(snarkjs, wasm)"]
     PUB["public: root, scope, threshold, nonce"] --> P
