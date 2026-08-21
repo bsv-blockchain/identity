@@ -1,8 +1,11 @@
-# Generated PDF renderings of the markdown sources
-*.pdf
-
 # Git worktrees
 .worktrees/
+
+# Build bookkeeping: fingerprints of the last successful PDF/EPUB build.
+tools/.build-cache/
+
+# Ad-hoc output of tools/check-glyphs.sh --sheet
+glyph-coverage.png
 
 # OS / editor cruft
 .DS_Store

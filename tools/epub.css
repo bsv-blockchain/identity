@@ -1,0 +1,52 @@
+/* Mandala document set: EPUB styling.
+   Deliberately restrained: e-readers override fonts and sizes freely, so this
+   sets relationships (scale, spacing, code panels) rather than absolutes.
+   No font is embedded, so the 30 non-ASCII characters these papers use fall
+   back to the reader's fonts; tools/check-glyphs.sh covers the PDF only. */
+
+html { font-size: 100%; }
+body {
+  font-family: Palatino, "Iowan Old Style", Georgia, serif;
+  line-height: 1.5;
+  margin: 0 5%;
+  text-align: left;
+  hyphens: auto;
+}
+h1, h2, h3, h4 { font-weight: bold; line-height: 1.25; text-align: left; page-break-after: avoid; }
+h1 { font-size: 1.6em; margin: 1.4em 0 .6em; }
+h2 { font-size: 1.3em; margin: 1.6em 0 .5em; border-bottom: 1px solid #d3d9e2; padding-bottom: .2em; }
+h3 { font-size: 1.1em; margin: 1.3em 0 .4em; }
+h4 { font-size: 1em; font-style: italic; font-weight: normal; color: #5a6472; margin: 1.1em 0 .3em; }
+
+p { margin: 0 0 .8em; orphans: 2; widows: 2; }
+em { font-style: italic; }
+strong { font-weight: bold; }
+
+a { color: #17457e; text-decoration: none; }
+
+/* Long formula lines must wrap: several exceed 120 characters and would
+   otherwise clip on a phone-sized screen. */
+pre {
+  font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  font-size: .8em;
+  line-height: 1.35;
+  background: #f6f7f9;
+  border: 1px solid #d3d9e2;
+  border-radius: 3px;
+  padding: .7em .8em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+code { font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace; font-size: .85em; }
+p code { background: #f6f7f9; padding: 0 .15em; border-radius: 2px; }
+
+ul, ol { margin: 0 0 .8em; padding-left: 1.4em; }
+li { margin-bottom: .35em; }
+
+table { border-collapse: collapse; width: 100%; font-size: .9em; margin: 1em 0; }
+th, td { text-align: left; padding: .35em .5em; border-bottom: 1px solid #d3d9e2; }
+th { border-top: 1px solid #14181f; border-bottom: 1px solid #14181f; }
+
+hr { border: 0; border-top: 1px solid #d3d9e2; width: 32%; margin: 1.6em auto; }
+blockquote { margin: 1em 1.5em; color: #3d4653; font-style: italic; }

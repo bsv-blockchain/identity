@@ -82,6 +82,45 @@ The proposal states its limits plainly, and so does this README:
 BRC-42/43 key derivation, BRC-103 authentication, BRC-52/53 keyrings, SD-JWT VC, and a
 pluggable zero-knowledge toolbox — bound into one layer rather than reinvented.
 
+## Building the PDF and EPUB editions
+
+`tools/build-docs.sh` regenerates both formats from the markdown into `pdf/` and
+`epub/`. It rebuilds only what changed, keying on a SHA-256 of the source plus
+every build input — including `diagrams/`, which the papers embed — so a fresh
+clone or a stray `touch` does not trigger work while a real edit always does.
+
+```sh
+tools/build-docs.sh                 # rebuild whatever changed
+tools/build-docs.sh --all           # rebuild everything
+tools/build-docs.sh --pdf           # one format only (or --epub)
+tools/build-docs.sh --watch         # rebuild on save
+tools/build-docs.sh --check         # exit 1 if anything is stale (CI)
+tools/build-docs.sh --install-hook  # rebuild and stage on every commit
+```
+
+Requires `pandoc` and `typst` (`brew install pandoc typst`). The PDF path runs
+markdown through pandoc to typst and compiles with `tools/template.typ`; the
+EPUB path is pandoc's epub3 writer with `tools/epub.css`. The title, the
+optional subtitle beneath it, and the `**Status:**` / `**Editors:**` block are
+lifted out of each document's front matter into the title block and the EPUB
+metadata; the title block shows only the version, the part of the status line
+before the first em dash.
+
+### Fonts and the glyph guard
+
+Typst falls back across every installed font *silently*, so a missing glyph
+produces no warning, only a wrong-looking character on machines without
+whatever font it borrowed. These papers use 19 non-ASCII characters, all
+covered by the two fonts typst ships and the template targets: Libertinus Serif
+for text, DejaVu Sans Mono for code. `tools/check-glyphs.sh` fails when a
+document introduces a character that has not been verified by eye:
+
+```sh
+tools/check-glyphs.sh           # fail on unverified characters
+tools/check-glyphs.sh --sheet   # render a coverage sheet to inspect
+tools/check-glyphs.sh --accept  # record the current inventory as verified
+```
+
 ## Contributing
 
 This is an early draft intended to attract review. Issues and pull requests against the
@@ -89,5 +128,6 @@ documents are welcome; substantive cryptographic and normative feedback especial
 
 ---
 
-*The `.md` files are the source of record. PDF renderings are generated artifacts and are
-not committed (see `.gitignore`).*
+*The `.md` files are the source of record. The PDF and EPUB editions in `pdf/` and `epub/`
+are generated from them by `tools/build-docs.sh` (see “Building the PDF and EPUB
+editions” above).*
